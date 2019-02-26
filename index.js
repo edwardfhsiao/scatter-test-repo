@@ -4,25 +4,40 @@ import ScatterEOS from 'scatterjs-plugin-eosjs';
 import Eos from 'eosjs';
 ScatterJS.plugins(new ScatterEOS());
 
-const network = {
-  blockchain: 'eos',
-  host: 'api1.eosasia.one',
-  port: '443',
-  chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-  protocol: 'https',
+const network = [
+  {
+    blockchain: 'eos',
+    host: 'api1.eosasia.one',
+    port: '443',
+    chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+    protocol: 'https',
+  },
+  {
+    blockchain: 'eos',
+    host: 'api.eoseoul.io',
+    port: '443',
+    chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+    protocol: 'https',
+  },
+];
+
+const initScatter = index => {
+  console.log('init start');
+  ScatterJS.scatter.connect('APP_NAME').then(connected => {
+    console.log('init callback');
+    if (!connected) {
+      return false;
+    }
+    ScatterJS.scatter.eos(network[index], Eos);
+    return true;
+  });
 };
 
-ScatterJS.scatter.connect('APP_NAME').then(connected => {
-  if (!connected) {
-    return false;
-  }
-  ScatterJS.scatter.eos(network, Eos);
-  return true;
-});
+initScatter(0);
 
 const getAccount = () => {
   ScatterJS.scatter
-    .getIdentity({ accounts: [network] })
+    .getIdentity({ accounts: [network[index]] })
     .then(res => {
       const account = res.accounts.find(account => account.blockchain === 'eos');
       account['publicKey'] = res.publicKey;
@@ -37,7 +52,14 @@ const getAccount = () => {
     });
 };
 
+document.getElementById('networkIndexSelection').addEventListener('change', e => {
+  const index = e.currentTarget.value;
+  document.getElementById('networkIndex').innerHTML = index;
+  initScatter(index);
+});
+
 document.getElementById('login').addEventListener('click', () => {
+  // ScatterJS.scatter.forgetIdentity();
   getAccount();
 });
 

@@ -12,8 +12,8 @@
     "@babel/runtime": "^7.3.1",
     "babel-polyfill": "^6.26.0",
     "eosjs": "^16.0.9",
-    "scatterjs-core": "^2.7.9",
-    "scatterjs-plugin-eosjs": "^1.5.0"
+    "scatterjs-core": "^2.7.14",
+    "scatterjs-plugin-eosjs": "^1.5.1"
   },
   "devDependencies": {
     "add-asset-html-webpack-plugin": "^3.0.1",

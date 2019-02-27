@@ -35,7 +35,7 @@ const initScatter = index => {
 
 initScatter(0);
 
-const getAccount = () => {
+const getAccount = (index) => {
   ScatterJS.scatter
     .getIdentity({ accounts: [network[index]] })
     .then(res => {
@@ -60,7 +60,7 @@ document.getElementById('networkIndexSelection').addEventListener('change', e =>
 
 document.getElementById('login').addEventListener('click', () => {
   // ScatterJS.scatter.forgetIdentity();
-  getAccount();
+  getAccount(document.getElementById('networkIndexSelection').value);
 });
 
 document.getElementById('logout').addEventListener('click', () => {

@@ -21,6 +21,7 @@ const network = [
   },
 ];
 
+let account;
 let connected = false;
 let eos;
 ScatterJS.scatter.connect('APP_NAME').then(c => {
@@ -32,7 +33,9 @@ ScatterJS.scatter.connect('APP_NAME').then(c => {
 });
 
 const initScatter = index => {
+  console.log('eos start');
   eos = ScatterJS.scatter.eos(network[index], Eos);
+  console.log('error would occure here with desktop version');
   return true;
 };
 
@@ -40,9 +43,10 @@ const getAccount = index => {
   ScatterJS.scatter
     .getIdentity({ accounts: [network[index]] })
     .then(res => {
-      const account = res.accounts.find(account => account.blockchain === 'eos');
+      account = res.accounts.find(item => item.blockchain === 'eos');
       account['publicKey'] = res.publicKey;
       document.getElementById('login').innerHTML = account.name;
+      document.getElementById('transfer').innerHTML = 'Transfer';
       document.getElementById('logout').innerHTML = 'logout';
     })
     .catch(error => {
@@ -67,5 +71,11 @@ document.getElementById('logout').addEventListener('click', () => {
   ScatterJS.scatter.forgetIdentity().then(() => {
     document.getElementById('login').innerHTML = 'login';
     document.getElementById('logout').innerHTML = '';
+  });
+});
+
+document.getElementById('transfer').addEventListener('click', () => {
+  eos.transfer(account.name, '1', `${Number(0.1).toFixed(4)} EOS`, 'memo', {
+    authorization: [`${account.name}@${account.authority}`],
   });
 });

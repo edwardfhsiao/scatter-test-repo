@@ -21,21 +21,34 @@ const network = [
   },
 ];
 
+let connected = false;
+let eos;
+ScatterJS.scatter.connect('APP_NAME').then(c => {
+  connected = c;
+  if (!connected) {
+    return false;
+  }
+  initScatter(0);
+});
+
+// const initScatter = index => {
+//   console.log('init start');
+//   ScatterJS.scatter.connect('APP_NAME').then(connected => {
+//     console.log('init callback');
+//     if (!connected) {
+//       return false;
+//     }
+//     ScatterJS.scatter.eos(network[index], Eos);
+//     return true;
+//   });
+// };
+
 const initScatter = index => {
-  console.log('init start');
-  ScatterJS.scatter.connect('APP_NAME').then(connected => {
-    console.log('init callback');
-    if (!connected) {
-      return false;
-    }
-    ScatterJS.scatter.eos(network[index], Eos);
-    return true;
-  });
+  eos = ScatterJS.scatter.eos(network[index], Eos);
+  return true;
 };
 
-initScatter(0);
-
-const getAccount = (index) => {
+const getAccount = index => {
   ScatterJS.scatter
     .getIdentity({ accounts: [network[index]] })
     .then(res => {

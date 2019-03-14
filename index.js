@@ -60,7 +60,6 @@ document.getElementById('networkIndexSelection').addEventListener('change', e =>
 });
 
 document.getElementById('login').addEventListener('click', () => {
-  // ScatterJS.scatter.forgetIdentity();
   getAccount(document.getElementById('networkIndexSelection').value);
 });
 

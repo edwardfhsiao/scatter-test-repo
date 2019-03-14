@@ -35,7 +35,7 @@ ScatterJS.scatter.connect('APP_NAME').then(c => {
 const initScatter = index => {
   console.log('eos start');
   eos = ScatterJS.scatter.eos(network[index], Eos);
-  console.log('error would occure here with desktop version');
+  console.log('error would occure above with desktop version');
   return true;
 };
 
@@ -75,7 +75,11 @@ document.getElementById('logout').addEventListener('click', () => {
 });
 
 document.getElementById('transfer').addEventListener('click', () => {
-  eos.transfer(account.name, '1', `${Number(0.1).toFixed(4)} EOS`, 'memo', {
+  if (!account) {
+    alert('login first');
+    return;
+  }
+  eos.transfer(account.name, '1', '0.1000 EOS', 'memo', {
     authorization: [`${account.name}@${account.authority}`],
   });
 });

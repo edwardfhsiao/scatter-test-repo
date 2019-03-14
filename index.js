@@ -31,18 +31,6 @@ ScatterJS.scatter.connect('APP_NAME').then(c => {
   initScatter(0);
 });
 
-// const initScatter = index => {
-//   console.log('init start');
-//   ScatterJS.scatter.connect('APP_NAME').then(connected => {
-//     console.log('init callback');
-//     if (!connected) {
-//       return false;
-//     }
-//     ScatterJS.scatter.eos(network[index], Eos);
-//     return true;
-//   });
-// };
-
 const initScatter = index => {
   eos = ScatterJS.scatter.eos(network[index], Eos);
   return true;
